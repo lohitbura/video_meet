@@ -16,14 +16,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final serverText = TextEditingController();
-  final roomText = TextEditingController(text: "Lohit_Bura_Custom_Room");
-  final subjectText = TextEditingController(text: "Test Video Chat");
-  final nameText = TextEditingController(text: "Lohit Bura");
-  final emailText = TextEditingController(text: "fake@email.com");
-  final iosAppBarRGBAColor = TextEditingController(text: "#0080FF80");//transparent blue
+  final roomText = TextEditingController();
+  final subjectText = TextEditingController();
+  final nameText = TextEditingController();
+  final emailText = TextEditingController();
+  final iosAppBarRGBAColor = TextEditingController();//transparent blue
   var isAudioOnly = true;
   var isAudioMuted = false;
   var isVideoMuted = false;
+  var _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -54,13 +55,15 @@ class _MyAppState extends State<MyApp> {
             horizontal: 16.0,
           ),
           child: SingleChildScrollView(
-            child: Column(
+            child: Form(
+              key: _formKey,
+              child: Column(
               children: <Widget>[
                 SizedBox(
                   height: 24.0,
                 ),
                 Card(
-                  elevation: 10   ,
+                  elevation: 6,
                   child: Column(
                     children: <Widget>[
                       ListTile(
@@ -82,6 +85,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           controller: roomText,
                           decoration: InputDecoration(
                               border:  OutlineInputBorder(
@@ -99,6 +108,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           controller: subjectText,
                           decoration: InputDecoration(
                               border:  OutlineInputBorder(
@@ -115,6 +130,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           controller: nameText,
                           decoration: InputDecoration(
                               border:  OutlineInputBorder(
@@ -131,6 +152,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           controller: emailText,
                           decoration: InputDecoration(
                               border:  OutlineInputBorder(
@@ -147,6 +174,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           controller: iosAppBarRGBAColor,
                           decoration: InputDecoration(
                               border:  OutlineInputBorder(
@@ -160,13 +193,13 @@ class _MyAppState extends State<MyApp> {
                           ),
 
                         ),
-                        trailing: Icon(Icons.email, color: Colors.grey,),
+                        trailing: Icon(Icons.color_lens, color: Colors.grey,),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 16.0,
+                  height: 8.0,
                 ),
                 CheckboxListTile(
                   title: Text("Audio Only"),
@@ -174,7 +207,7 @@ class _MyAppState extends State<MyApp> {
                   onChanged: _onAudioOnlyChanged,
                 ),
                 SizedBox(
-                  height: 16.0,
+                  height: 8.0,
                 ),
                 CheckboxListTile(
                   title: Text("Audio Muted"),
@@ -182,7 +215,7 @@ class _MyAppState extends State<MyApp> {
                   onChanged: _onAudioMutedChanged,
                 ),
                 SizedBox(
-                  height: 16.0,
+                  height: 8.0,
                 ),
                 CheckboxListTile(
                   title: Text("Video Muted"),
@@ -198,6 +231,9 @@ class _MyAppState extends State<MyApp> {
                   width: double.maxFinite,
                   child: RaisedButton(
                     onPressed: () {
+                      if (!_formKey.currentState.validate()) {
+                        return;
+                      }
                       _joinMeeting();
                     },
                     child: Text(
@@ -211,6 +247,7 @@ class _MyAppState extends State<MyApp> {
                   height: 48.0,
                 ),
               ],
+            ),
             ),
           ),
         ),
